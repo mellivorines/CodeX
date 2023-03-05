@@ -129,7 +129,6 @@ class DatabaseService : DatabaseService {
             try {
                 resultSet.close()
             } catch (e: SQLException) {
-                resultSet = null
                 logger.error(e.message)
             }
         }
@@ -138,7 +137,6 @@ class DatabaseService : DatabaseService {
             try {
                 statement.close()
             } catch (e: SQLException) {
-                statement = null
                 logger.error(e.message)
             }
         }
@@ -147,7 +145,6 @@ class DatabaseService : DatabaseService {
             try {
                 connection.close()
             } catch (e: SQLException) {
-                connection = null
                 logger.error(e.message)
             }
         }
