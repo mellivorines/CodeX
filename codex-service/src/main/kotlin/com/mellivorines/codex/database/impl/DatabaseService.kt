@@ -1,7 +1,8 @@
 package com.mellivorines.codex.database.impl
 
+import com.mellivorines.codex.constants.CommonConstant
 import com.mellivorines.codex.database.DatabaseService
-import com.mellivorines.codex.model.FieldInfo
+import com.mellivorines.codex.model.TableField
 import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,7 +33,7 @@ class DatabaseService : DatabaseService {
             //目录名称, 数据库名, 表名称, 表类型
             resultSet = meta.getTables(catalog(databaseName), schema, tableNamePattern(), types())
             while (resultSet?.next()!!) {
-                result.add(resultSet.getString("TABLE_NAME"))
+                result.add(resultSet.getString(CommonConstant.TABLE_NAME))
             }
         } catch (e: SQLException) {
             logger.error("获取数据库全部表:", e)
@@ -44,7 +45,7 @@ class DatabaseService : DatabaseService {
 
     private fun getSchema(driverClassName: String?): String? {
         return if (driverClassName.equals("org.postgresql.Driver")) {
-            "public"
+            CommonConstant.PUBLIC
         } else {
             null
         }
@@ -53,23 +54,23 @@ class DatabaseService : DatabaseService {
     /**
      * 获取数据库表所包含的字段
      */
-    override fun getTableFields(table: String, dataSource: DataSource): List<FieldInfo>? {
+    override fun getTableFields(table: String, dataSource: DataSource): List<TableField>? {
         val databaseName = getDatabaseName(dataSource)
         val schema: String? = getSchema((dataSource as HikariDataSource).driverClassName)
         val connection = getConnection(dataSource) ?: return null
-        val result = ArrayList<FieldInfo>()
+        val result = ArrayList<TableField>()
         var resultSet: ResultSet? = null
         try {
             val meta = connection.metaData
             resultSet = meta.getColumns(catalog(databaseName), schema, table, null)
             while (resultSet.next()) {
-                val fieldInfo = FieldInfo(
-                    resultSet.getString("COLUMN_NAME"),
-                    resultSet.getString("REMARKS"),
-                    resultSet.getString("TYPE_NAME"),
-                    resultSet.getInt("COLUMN_SIZE")
+                val tableField = TableField(
+                    resultSet.getString(CommonConstant.COLUMN_NAME),
+                    resultSet.getString(CommonConstant.REMARKS),
+                    resultSet.getString(CommonConstant.TYPE_NAME),
+                    resultSet.getInt(CommonConstant.COLUMN_SIZE)
                 )
-                result.add(fieldInfo)
+                result.add(tableField)
             }
         } catch (e: Exception) {
             logger.error("获取数据库表所包含的字段：", e)
@@ -102,7 +103,7 @@ class DatabaseService : DatabaseService {
      * to include; null returns all types
      */
     fun types(): Array<String> {
-        return arrayOf("TABLE", "VIEW")
+        return arrayOf(CommonConstant.TABLE, CommonConstant.VIEW)
     }
 
     /**
@@ -159,16 +160,16 @@ class DatabaseService : DatabaseService {
         return ddl(table, fields)
     }
 
-    fun ddl(table: String, fields: List<FieldInfo>?): String {
+    fun ddl(table: String, fields: List<TableField>?): String {
         var fieldLines = StringBuilder()
         fields?.forEachIndexed { index, fieldInfo ->
             if (index == 0) {
-                val line = "${fieldInfo.fieldName}               STRING COMMENT '${fieldInfo.comment}'"
+                val line = "${fieldInfo.fieldName}               STRING COMMENT '${fieldInfo.fieldComment}'"
                 fieldLines.append("\n")
                 fieldLines.append(line)
                 fieldLines.append("\n")
             } else {
-                val line = ",${fieldInfo.fieldName}               STRING COMMENT '${fieldInfo.comment}'"
+                val line = ",${fieldInfo.fieldName}               STRING COMMENT '${fieldInfo.fieldComment}'"
                 fieldLines.append(line)
                 fieldLines.append("\n")
             }

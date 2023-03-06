@@ -1,7 +1,7 @@
 package com.mellivorines.codex.controller
 
 import com.mellivorines.codex.database.DatabaseService
-import com.mellivorines.codex.model.FieldInfo
+import com.mellivorines.codex.model.TableField
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,7 +17,7 @@ class DatabaseController(private var databaseService: DatabaseService) {
     lateinit var dataSource: DataSource
 
     @GetMapping("/tableField")
-    fun getTableField(@RequestParam("table")table:String): List<FieldInfo>? {
+    fun getTableField(@RequestParam("table")table:String): List<TableField>? {
         return databaseService.getTableFields(table, dataSource)
     }
 
