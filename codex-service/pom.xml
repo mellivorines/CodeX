@@ -15,6 +15,7 @@
     <description>codex</description>
     <properties>
         <java.version>17</java.version>
+        <hutool.version>5.8.14</hutool.version>
         <kotlin.version>1.7.22</kotlin.version>
         <velocity.version>1.7</velocity.version>
         <freemarker.version>2.3.31</freemarker.version>
@@ -73,12 +74,20 @@
         <!-- 模板引擎 -->
 
         <!-- lang3工具类 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.commons</groupId>-->
+<!--            <artifactId>commons-lang3</artifactId>-->
+<!--            <version>${commons.lang3.version}</version>-->
+<!--        </dependency>-->
         <!-- lang3工具类 -->
+
+        <!-- hutool工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- hutool工具类 -->
 
         <!-- commons-io -->
         <dependency>
