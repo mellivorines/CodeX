@@ -4,7 +4,6 @@ import cn.hutool.core.io.IoUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONUtil
 import freemarker.template.Template
-import org.apache.commons.io.IOUtils
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.runtime.RuntimeConstants
@@ -49,8 +48,8 @@ object TemplateUtils {
                 throw Exception(e)
             }
             val result = stringWriter.toString()
-            IOUtils.close(stringReader)
-            IOUtils.close(stringWriter)
+            IoUtil.close(stringReader)
+            IoUtil.close(stringWriter)
 
             return result
         }
