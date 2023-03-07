@@ -3,7 +3,7 @@ package com.mellivorines.codex.utils
 import cn.hutool.core.io.IoUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONUtil
-import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.mellivorines.codex.model.json.Templates
 import freemarker.template.Template
 import org.apache.velocity.VelocityContext
@@ -75,8 +75,7 @@ object TemplateUtils {
     fun getTemplateFromJson(path: String?): Templates {
         val resource = ClassPathResource(path!!)
         val jsonStr: String = IoUtil.read(resource.inputStream, UTF_8)
-        var jsonMapper = JsonMapper()
-        return jsonMapper.readValue(jsonStr,Templates::class.java)
+        return ObjectMapper().readerFor(Templates::class.java).readValue(jsonStr)
     }
 
 

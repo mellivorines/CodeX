@@ -75,6 +75,7 @@ class DatabaseService : DatabaseService {
             resultSet = meta.getColumns(catalog(databaseName), schema, table, null)
             while (resultSet.next()) {
                 val tableField = TableField(
+                    resultSet.getString(CommonConstant.TABLE_NAME),
                     resultSet.getString(CommonConstant.COLUMN_NAME),
                     resultSet.getString(CommonConstant.REMARKS),
                     resultSet.getString(CommonConstant.TYPE_NAME),
