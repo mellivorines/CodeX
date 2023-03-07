@@ -1,11 +1,13 @@
-package com.mellivorines.codex.database.impl
+package com.mellivorines.codex.service.impl
 
 import com.mellivorines.codex.constants.CommonConstant
-import com.mellivorines.codex.database.DatabaseService
+import com.mellivorines.codex.model.Table
 import com.mellivorines.codex.model.TableField
+import com.mellivorines.codex.service.DatabaseService
 import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.sql.Connection
 import java.sql.ResultSet
@@ -15,17 +17,21 @@ import javax.sql.DataSource
 
 @Service
 class DatabaseService : DatabaseService {
+
     private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
+
+    @Autowired
+    lateinit var dataSource: DataSource
 
     /**
      * 获取数据库全部表
      */
-    override fun getAllTables(dataSource: DataSource): List<String>? {
+    override fun getAllTables(): List<Table>? {
         val databaseName = getDatabaseName(dataSource)
         val schema: String? = getSchema((dataSource as HikariDataSource).driverClassName)
         val connection = getConnection(dataSource) ?: return null
-        val result = ArrayList<String>()
+        val result = ArrayList<Table>()
         var resultSet: ResultSet? = null
         try {
             connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
@@ -33,7 +39,11 @@ class DatabaseService : DatabaseService {
             //目录名称, 数据库名, 表名称, 表类型
             resultSet = meta.getTables(catalog(databaseName), schema, tableNamePattern(), types())
             while (resultSet?.next()!!) {
-                result.add(resultSet.getString(CommonConstant.TABLE_NAME))
+                var table = Table(
+                    resultSet.getString(CommonConstant.TABLE_NAME),
+                    resultSet.getString(CommonConstant.REMARKS)
+                )
+                result.add(table)
             }
         } catch (e: SQLException) {
             logger.error("获取数据库全部表:", e)
@@ -54,7 +64,7 @@ class DatabaseService : DatabaseService {
     /**
      * 获取数据库表所包含的字段
      */
-    override fun getTableFields(table: String, dataSource: DataSource): List<TableField>? {
+    override fun getTableFields(table: String): List<TableField>? {
         val databaseName = getDatabaseName(dataSource)
         val schema: String? = getSchema((dataSource as HikariDataSource).driverClassName)
         val connection = getConnection(dataSource) ?: return null
@@ -82,7 +92,7 @@ class DatabaseService : DatabaseService {
 
     /**
      * a catalog name;
-     * must match the catalog name as it is stored in the database;
+     * must match the catalog name as it is stored in the service;
      * "" retrieves those without a catalog; null means that the catalog name should not be used to narrow the search
      */
     fun catalog(databaseName: String): String? {
@@ -91,7 +101,7 @@ class DatabaseService : DatabaseService {
 
     /**
      * a table name pattern;
-     * must match the table name as it is stored in the database
+     * must match the table name as it is stored in the service
      */
     fun tableNamePattern(): String {
         return "%"
@@ -109,7 +119,8 @@ class DatabaseService : DatabaseService {
     /**
      * 获取数据库名称
      */
-    fun getDatabaseName(dataSource: DataSource): String = (dataSource as HikariDataSource).jdbcUrl.substringBefore("?").substringAfterLast("/")
+    fun getDatabaseName(dataSource: DataSource): String =
+        (dataSource as HikariDataSource).jdbcUrl.substringBefore("?").substringAfterLast("/")
 
     override fun getConnection(dataSource: DataSource): Connection? {
         var connection: Connection? = null
@@ -155,8 +166,8 @@ class DatabaseService : DatabaseService {
     /**
      * 生成 DDL 语句
      */
-    fun generateDDL(table: String, dataSource: DataSource): String? {
-        val fields = getTableFields(table, dataSource)
+    fun generateDDL(table: String): String? {
+        val fields = getTableFields(table)
         return ddl(table, fields)
     }
 

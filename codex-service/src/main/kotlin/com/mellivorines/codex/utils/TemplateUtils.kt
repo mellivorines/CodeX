@@ -3,6 +3,8 @@ package com.mellivorines.codex.utils
 import cn.hutool.core.io.IoUtil
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONUtil
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.mellivorines.codex.model.json.Templates
 import freemarker.template.Template
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
@@ -40,7 +42,6 @@ object TemplateUtils {
             val stringReader = StringReader(content)
             val stringWriter = StringWriter()
             try {
-                // templateName
                 var template = Template(templateName, stringReader, null, UTF_8.toString())
                 template.process(dataModel, stringWriter)
             } catch (e: Exception) {
@@ -68,10 +69,21 @@ object TemplateUtils {
     }
 
     /**
+     * 从指定路径获取JSON并转换为Template
+     * @param path json文件路径
+     */
+    fun getTemplateFromJson(path: String?): Templates {
+        val resource = ClassPathResource(path!!)
+        val jsonStr: String = IoUtil.read(resource.inputStream, UTF_8)
+        var jsonMapper = JsonMapper()
+        return jsonMapper.readValue(jsonStr,Templates::class.java)
+    }
+
+
+    /**
      * render template file to outFile with context
      */
-    public fun render(outFile: Path, templateFile: Path, context: Map<String, Any>) {
-        // set template resource import path
+     fun render(outFile: Path, templateFile: Path, context: Map<String, Any>) {
         properties.setProperty(
             RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
             templateFile.parent.absolutePathString()

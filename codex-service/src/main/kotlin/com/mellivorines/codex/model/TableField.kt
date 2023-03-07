@@ -4,5 +4,5 @@ data class TableField(
     var fieldName: String,
     var fieldComment: String,
     var fieldType: String,
-    var fieldsize: Int
+    var fieldSize: Int
 )

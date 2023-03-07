@@ -1,0 +1,14 @@
+{
+  "java": [
+    {
+      "className": "Entity.java",
+      "templateName": "Boolean"
+    }
+  ],
+  "kotlin": [
+    {
+      "className": "Entity.kt",
+      "templateName": "Boolean"
+    }
+  ]
+}
