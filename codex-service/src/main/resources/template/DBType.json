@@ -11,7 +11,7 @@
       "kotlin": "Short"
     },
     {
-      "column": "^int(\\(\\d+\\))?$|^integer(\\(\\d+\\))?$|^int4$|^serial$|^bit\\((\\d+)\\)$|number",
+      "column": "^int(\\(\\d+\\))?$|^integer(\\(\\d+\\))?$|^int4$|^serial$|^bit\\((\\d+)\\)$|number$|tinyint",
       "java": "Integer",
       "kotlin": "Int"
     },
