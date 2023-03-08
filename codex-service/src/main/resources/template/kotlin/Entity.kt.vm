@@ -26,11 +26,12 @@ interface ${ClassName}Entity {
 #end
 #if($field.fieldName == "id" )
         @GeneratedValue(generatorType = IdGenerator::class)
+        var $field.fieldTName : Long
 #end
 #if($field.fieldName != "id" )
         @Column(name = "$field.fieldName")
-#end
         var $field.fieldTName : $field.fieldKotlinType
+#end
 #end
 
 }

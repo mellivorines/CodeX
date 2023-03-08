@@ -31,7 +31,7 @@ public interface  ${ClassName}Entity {
 #if($field.fieldName != "id" )
         @Column(name = "$field.fieldName")
 #end
-        $field.fieldJavaType  $field.fieldTName();
+        private   $field.fieldJavaType  $field.fieldTName();
 #end
 
 }

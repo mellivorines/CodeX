@@ -4,6 +4,11 @@
       "className": "Entity.java",
       "outPath": "entity/{className}Entity.java",
       "templateName": "/template/java/Entity.java.vm"
+    },
+    {
+      "className": "Repository.java",
+      "outPath": "repository/{className}Repository.java",
+      "templateName": "/template/kotlin/Repository.java.vm"
     }
   ],
   "kotlin": [
@@ -11,6 +16,11 @@
       "className": "Entity.kt",
       "outPath": "entity/{className}Entity.kt",
       "templateName": "/template/kotlin/Entity.kt.vm"
+    },
+    {
+      "className": "Repository.kt",
+      "outPath": "repository/{className}Repository.kt",
+      "templateName": "/template/kotlin/Repository.kt.vm"
     }
   ]
 }
