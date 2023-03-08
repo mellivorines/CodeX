@@ -1,10 +1,8 @@
 package com.mellivorines.codex.utils
 
 import cn.hutool.core.io.IoUtil
-import cn.hutool.json.JSONArray
-import cn.hutool.json.JSONUtil
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.mellivorines.codex.model.json.Templates
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import freemarker.template.Template
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
@@ -59,25 +57,13 @@ object TemplateUtils {
     /**
      * 从指定路径获取JSON并转换为List
      * @param path json文件路径
-     * @param elementType List元素类型
      */
-    fun <T> getListFromJson(path: String?, elementType: Class<T>?): List<T>? {
+    inline fun <reified T> getListFromJson(path: String?): T? {
         val resource = ClassPathResource(path!!)
         val jsonStr: String = IoUtil.read(resource.inputStream, UTF_8)
-        val jsonArray = JSONArray(jsonStr)
-        return JSONUtil.toList(jsonArray, elementType)
+        val mapper = jacksonObjectMapper()
+        return mapper.readValue(jsonStr)
     }
-
-    /**
-     * 从指定路径获取JSON并转换为Template
-     * @param path json文件路径
-     */
-    fun getTemplateFromJson(path: String?): Templates {
-        val resource = ClassPathResource(path!!)
-        val jsonStr: String = IoUtil.read(resource.inputStream, UTF_8)
-        return ObjectMapper().readerFor(Templates::class.java).readValue(jsonStr)
-    }
-
 
     /**
      * render template file to outFile with context
@@ -102,6 +88,8 @@ object TemplateUtils {
             engine
                 .getTemplate(templateFile.name, StandardCharsets.UTF_8.name())
                 .merge(VelocityContext(context), it)
+
+
         }
     }
 }
