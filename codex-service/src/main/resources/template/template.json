@@ -2,13 +2,15 @@
   "java": [
     {
       "className": "Entity.java",
-      "templateName": "Boolean"
+      "outPath": "entity/{className}Entity.java",
+      "templateName": "/template/java/Entity.java.vm"
     }
   ],
   "kotlin": [
     {
       "className": "Entity.kt",
-      "templateName": "Boolean"
+      "outPath": "entity/{className}Entity.kt",
+      "templateName": "/template/kotlin/Entity.kt.vm"
     }
   ]
 }
