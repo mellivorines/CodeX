@@ -1,8 +1,8 @@
 package com.mellivorines.codex.service
 
-import com.mellivorines.codex.model.TableField
+import com.mellivorines.codex.model.database.Table
 
 
 interface GeneratorService {
-    fun generateModule():List<TableField>
+    fun generateModule(language: String, module: String?): List<Table>?
 }
