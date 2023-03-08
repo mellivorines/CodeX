@@ -1,8 +1,8 @@
 package com.mellivorines.codex.controller
 
-import com.mellivorines.codex.model.Table
+import com.mellivorines.codex.model.database.Table
+import com.mellivorines.codex.model.database.TableField
 import com.mellivorines.codex.service.DatabaseService
-import com.mellivorines.codex.model.TableField
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
