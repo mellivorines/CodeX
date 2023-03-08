@@ -1,9 +1,10 @@
 package com.mellivorines.codex.service.impl
 
 import com.mellivorines.codex.constants.CommonConstant
-import com.mellivorines.codex.model.Table
-import com.mellivorines.codex.model.TableField
+import com.mellivorines.codex.model.database.Table
+import com.mellivorines.codex.model.database.TableField
 import com.mellivorines.codex.service.DatabaseService
+import com.mellivorines.codex.utils.StringUtils.sneak2camel
 import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,6 +14,8 @@ import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.sql.DataSource
 
 @Service
@@ -31,7 +34,7 @@ class DatabaseService : DatabaseService {
         val databaseName = getDatabaseName(dataSource)
         val schema: String? = getSchema((dataSource as HikariDataSource).driverClassName)
         val connection = getConnection(dataSource) ?: return null
-        val result = ArrayList<Table>()
+        var result = ArrayList<Table>()
         var resultSet: ResultSet? = null
         try {
             connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
@@ -41,7 +44,10 @@ class DatabaseService : DatabaseService {
             while (resultSet?.next()!!) {
                 var table = Table(
                     resultSet.getString(CommonConstant.TABLE_NAME),
-                    resultSet.getString(CommonConstant.REMARKS)
+                    resultSet.getString(CommonConstant.REMARKS),
+                    resultSet.getString(CommonConstant.TABLE_NAME).sneak2camel(),
+                    SimpleDateFormat("yyyy-MM-dd").format(Date()),
+                    null
                 )
                 result.add(table)
             }
@@ -49,6 +55,12 @@ class DatabaseService : DatabaseService {
             logger.error("获取数据库全部表:", e)
         } finally {
             close(connection, null, resultSet)
+        }
+        if (result != null) {
+            for (table in result) {
+                var tableFields = getTableFields(table.tableName)
+                table.tableField = tableFields
+            }
         }
         return result
     }
@@ -68,17 +80,20 @@ class DatabaseService : DatabaseService {
         val databaseName = getDatabaseName(dataSource)
         val schema: String? = getSchema((dataSource as HikariDataSource).driverClassName)
         val connection = getConnection(dataSource) ?: return null
-        val result = ArrayList<TableField>()
+        var result = ArrayList<TableField>()
         var resultSet: ResultSet? = null
         try {
             val meta = connection.metaData
             resultSet = meta.getColumns(catalog(databaseName), schema, table, null)
             while (resultSet.next()) {
-                val tableField = TableField(
+                var tableField = TableField(
                     resultSet.getString(CommonConstant.TABLE_NAME),
                     resultSet.getString(CommonConstant.COLUMN_NAME),
                     resultSet.getString(CommonConstant.REMARKS),
-                    resultSet.getString(CommonConstant.TYPE_NAME),
+                    resultSet.getString(CommonConstant.TYPE_NAME).lowercase(),
+                    null,
+                    resultSet.getString(CommonConstant.COLUMN_NAME).sneak2camel(true),
+                    null,
                     resultSet.getInt(CommonConstant.COLUMN_SIZE)
                 )
                 result.add(tableField)
@@ -168,7 +183,7 @@ class DatabaseService : DatabaseService {
      * 生成 DDL 语句
      */
     fun generateDDL(table: String): String? {
-        val fields = getTableFields(table)
+        var fields = getTableFields(table)
         return ddl(table, fields)
     }
 
