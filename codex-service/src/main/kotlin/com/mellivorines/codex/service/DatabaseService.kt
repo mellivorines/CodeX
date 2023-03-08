@@ -1,7 +1,7 @@
 package com.mellivorines.codex.service
 
-import com.mellivorines.codex.model.Table
-import com.mellivorines.codex.model.TableField
+import com.mellivorines.codex.model.database.Table
+import com.mellivorines.codex.model.database.TableField
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.Statement
