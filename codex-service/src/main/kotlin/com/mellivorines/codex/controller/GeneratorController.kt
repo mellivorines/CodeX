@@ -1,7 +1,6 @@
 package com.mellivorines.codex.controller
 
-import com.mellivorines.codex.model.Table
-import com.mellivorines.codex.model.TableField
+import com.mellivorines.codex.model.database.Table
 import com.mellivorines.codex.service.GeneratorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,12 +14,10 @@ import javax.sql.DataSource
 @RequestMapping("/api")
 class GeneratorController(private var generatorService: GeneratorService) {
 
-    @Autowired
-    lateinit var dataSource: DataSource
 
     @GetMapping("/generator")
-    fun getTableField(): List<TableField>? {
-        return generatorService.generateModule()
+    fun getTableField(@RequestParam("language") language: String,@RequestParam("module") module: String?): List<Table>? {
+        return generatorService.generateModule(language, module)
     }
 
 }
