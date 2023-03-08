@@ -13,10 +13,7 @@ import javax.sql.DataSource
 @RestController
 @RequestMapping("/api")
 class DatabaseController(private var databaseService: DatabaseService) {
-
-    @Autowired
-    lateinit var dataSource: DataSource
-
+    
     @GetMapping("/tableField")
     fun getTableField(@RequestParam("table")table:String): List<TableField>? {
         return databaseService.getTableFields(table)
