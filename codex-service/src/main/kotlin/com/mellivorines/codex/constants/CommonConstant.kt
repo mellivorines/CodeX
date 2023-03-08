@@ -11,4 +11,9 @@ object CommonConstant {
     const val REMARKS = "REMARKS"
     const val TYPE_NAME = "TYPE_NAME"
     const val COLUMN_SIZE = "COLUMN_SIZE"
+    const val DIR_JAVA = "src/main/java"
+    const val DIR_KOTLIN = "src/main/kotlin"
+    const val DIR_RESOURCE = "src/main/resources"
+    const val LANGUAGE_KOTLIN = "kotlin"
+    const val LANGUAGE_JAVA = "java"
 }
