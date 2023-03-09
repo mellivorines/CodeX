@@ -17,8 +17,8 @@ import org.babyfish.jimmer.sql.meta.IdGenerator
 @Entity
 @Table(name = "${tableName}")
 interface ${ClassName}Entity {
-
 #foreach($field in $fieldList)
+
 #if($field.fieldComment!="")
         /**
          * $field.fieldComment
@@ -26,12 +26,11 @@ interface ${ClassName}Entity {
 #end
 #if($field.fieldName == "id" )
         @GeneratedValue(generatorType = IdGenerator::class)
-        var $field.fieldTName : Long
 #end
 #if($field.fieldName != "id" )
         @Column(name = "$field.fieldName")
-        var $field.fieldTName : $field.fieldKotlinType
 #end
+        var $!{field.fieldTName} : $!{field.fieldKotlinType}
 #end
 
 }

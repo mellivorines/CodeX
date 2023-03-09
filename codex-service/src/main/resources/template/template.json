@@ -8,7 +8,7 @@
     {
       "className": "Repository.java",
       "outPath": "repository/{className}Repository.java",
-      "templateName": "/template/kotlin/Repository.java.vm"
+      "templateName": "/template/java/Repository.java.vm"
     }
   ],
   "kotlin": [

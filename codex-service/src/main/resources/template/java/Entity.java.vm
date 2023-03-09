@@ -17,7 +17,6 @@ import org.babyfish.jimmer.sql.meta.IdGenerator
 @Entity
 @Table(name = "${tableName}")
 public interface  ${ClassName}Entity {
-
 #foreach($field in $fieldList)
 
 #if($field.fieldComment!="")
@@ -31,7 +30,7 @@ public interface  ${ClassName}Entity {
 #if($field.fieldName != "id" )
         @Column(name = "$field.fieldName")
 #end
-        private   $field.fieldJavaType  $field.fieldTName();
+        private   $!{field.fieldJavaType}  $!{field.fieldTName}();
 #end
 
 }
