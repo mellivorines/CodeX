@@ -4,5 +4,5 @@ import com.mellivorines.codex.model.database.Table
 
 
 interface GeneratorService {
-    fun generateModule(language: String, module: String?): List<Table>?
+    fun generateModule(language: String?, module: String?,framework: String?): List<Table>?
 }

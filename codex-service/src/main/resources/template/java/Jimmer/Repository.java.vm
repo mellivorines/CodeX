@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  * @since ${version} ${date}
  */
 @Repository
-public interface ${ClassName}Repository extends KRepository<${ClassName}Entity, Long> {
+public interface ${ClassName}Repository extends JRepository<${ClassName}Entity, Long> {
 
 }
 

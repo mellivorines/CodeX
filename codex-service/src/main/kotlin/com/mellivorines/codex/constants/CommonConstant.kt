@@ -16,4 +16,10 @@ object CommonConstant {
     const val DIR_RESOURCE = "src/main/resources"
     const val LANGUAGE_KOTLIN = "kotlin"
     const val LANGUAGE_JAVA = "java"
+
+    const val FRAMEWORK_JIMMER = "jimmer"
+    const val FRAMEWORK_MYBATIS = "mybatis"
+    const val FRAMEWORK_MYBATIS_PLUS = "mybatis_plus"
+    const val FRAMEWORK_MYBATIS_PLUS_MIXED = "mybatis_plus_mixed"
+    const val FRAMEWORK_SPRING_DATA_MONGODB = "spring_data_mongodb"
 }

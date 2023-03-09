@@ -3,9 +3,9 @@ package com.mellivorines.codex.service.impl
 import com.mellivorines.codex.SystemUtil
 import com.mellivorines.codex.constants.CommonConstant
 import com.mellivorines.codex.model.database.Table
+import com.mellivorines.codex.model.project.Project
 import com.mellivorines.codex.model.template.TemplateInfo
 import com.mellivorines.codex.model.template.Templates
-import com.mellivorines.codex.model.project.Project
 import com.mellivorines.codex.model.type.TypeMappings
 import com.mellivorines.codex.service.GeneratorService
 import com.mellivorines.codex.utils.TemplateUtils
@@ -19,32 +19,53 @@ import kotlin.io.path.Path
 class GeneratorServiceService(private var databaseService: DatabaseService) :
     GeneratorService {
 
-    override fun generateModule(language: String, module: String?): List<Table>? {
+    override fun generateModule(language: String?, module: String?, framework: String?): List<Table>? {
         var allTables = fillingTableInfo(databaseService.getAllTables())
-        generateModule(language, module, allTables)
+        generator(language, module, framework, allTables)
         return allTables
-
     }
 
     /**
      * 生成模块
      */
-    fun generateModule(language: String, module: String?, allTables: List<Table>?) {
+    fun generator(language: String?, module: String?, framework: String?, allTables: List<Table>?) {
         var dir = if (language == CommonConstant.LANGUAGE_KOTLIN) {
             CommonConstant.DIR_KOTLIN
         } else {
             CommonConstant.DIR_JAVA
         }
-        var templatesInfo = if (language == CommonConstant.LANGUAGE_KOTLIN) {
+        var frame = if (language == CommonConstant.LANGUAGE_KOTLIN) {
             getTemplate()?.kotlin
         } else {
             getTemplate()?.java
         }
+        var templatesInfo = when (framework) {
+            CommonConstant.FRAMEWORK_JIMMER -> {
+                frame?.jimmer
+            }
+            CommonConstant.FRAMEWORK_MYBATIS -> {
+                frame?.mybatis
+            }
+            CommonConstant.FRAMEWORK_MYBATIS_PLUS -> {
+                frame?.mybatisPlus
+            }
+            CommonConstant.FRAMEWORK_MYBATIS_PLUS_MIXED -> {
+                frame?.mybatisPlusMixed
+            }
+            CommonConstant.FRAMEWORK_SPRING_DATA_MONGODB -> {
+                frame?.springDataMongodb
+            }
+            else -> {
+                frame?.default
+            }
+        }
+
+
         var basePath = SystemUtil.getBasePath(dir)
         var project = getProject2JavaType()
         if (allTables != null && project != null) {
             for (table in allTables)
-                gen(basePath, module, table, project,templatesInfo)
+                gen(basePath, module, table, project, templatesInfo)
         }
     }
 
@@ -127,7 +148,7 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
      * 获取模板信息
      */
     fun getTemplate(): Templates? {
-        return getListFromJson("/template/template.json")
+        return getListFromJson("/template/template1.json")
     }
 
     /**

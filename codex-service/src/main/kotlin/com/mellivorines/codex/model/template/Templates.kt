@@ -2,13 +2,21 @@ package com.mellivorines.codex.model.template
 
 
 data class Templates(
-    var java: List<TemplateInfo>,
-    var kotlin: List<TemplateInfo>
+    val java: Framework,
+    val kotlin: Framework
+)
+
+data class Framework(
+    val default: List<TemplateInfo>,
+    val jimmer: List<TemplateInfo>,
+    val mybatis: List<TemplateInfo>,
+    val mybatisPlus: List<TemplateInfo>,
+    val mybatisPlusMixed: List<TemplateInfo>,
+    val springDataMongodb: List<TemplateInfo>
 )
 
 data class TemplateInfo(
-    var className: String,
-    var outPath: String,
-    var templateName: String
+    val className: String,
+    val outPath: String,
+    val templateName: String
 )
-

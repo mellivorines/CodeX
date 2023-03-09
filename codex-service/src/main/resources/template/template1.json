@@ -1,0 +1,150 @@
+{
+  "java": {
+    "default": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Jimmer/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Jimmer/Repository.java.vm"
+      }
+    ],
+    "jimmer": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Jimmer/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Jimmer/Repository.java.vm"
+      }
+    ],
+    "mybatis": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ],
+    "mybatisPlus": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ],
+    "mybatisPlusMixed": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ],
+    "springDataMongodb": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ]
+  },
+  "kotlin": {
+    "default": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Jimmer/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Jimmer/Repository.java.vm"
+      }
+    ],
+    "jimmer": [
+      {
+        "className": "Entity.kt",
+        "outPath": "entity/{className}Entity.kt",
+        "templateName": "/template/kotlin/Jimmer/Entity.kt.vm"
+      },
+      {
+        "className": "Repository.kt",
+        "outPath": "repository/{className}Repository.kt",
+        "templateName": "/template/kotlin/Jimmer/Repository.kt.vm"
+      }
+    ],
+    "mybatis": [
+      {
+        "className": "Entity.kt",
+        "outPath": "entity/{className}Entity.kt",
+        "templateName": "/template/kotlin/Entity.kt.vm"
+      },
+      {
+        "className": "Repository.kt",
+        "outPath": "repository/{className}Repository.kt",
+        "templateName": "/template/kotlin/Repository.kt.vm"
+      }
+    ],
+    "mybatisPlus": [
+      {
+        "className": "Entity.kt",
+        "outPath": "entity/{className}Entity.kt",
+        "templateName": "/template/kotlin/Entity.kt.vm"
+      },
+      {
+        "className": "Repository.kt",
+        "outPath": "repository/{className}Repository.kt",
+        "templateName": "/template/kotlin/Repository.kt.vm"
+      }
+    ],
+    "mybatisPlusMixed": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ],
+    "springDataMongodb": [
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Entity.java.vm"
+      },
+      {
+        "className": "Repository.java",
+        "outPath": "repository/{className}Repository.java",
+        "templateName": "/template/java/Repository.java.vm"
+      }
+    ]
+  }
+}
