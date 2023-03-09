@@ -6,7 +6,7 @@ import ${packageName}.${moduleName}.entity.${ClassName}Entity
 package ${packageName}.repository
 import ${packageName}.entity.${ClassName}Entity
 #end
-import org.babyfish.jimmer.spring.repository.JRepository;
+import org.babyfish.jimmer.spring.repository.KRepository
 import org.springframework.stereotype.Repository;
 
 /**
