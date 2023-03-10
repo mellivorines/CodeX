@@ -2,14 +2,34 @@
   "java": {
     "default": [
       {
-        "className": "Entity.java",
-        "outPath": "entity/{className}Entity.java",
-        "templateName": "/template/java/Jimmer/Entity.java.vm"
+        "className": "Controller.java",
+        "outPath": "controller/{className}Controller.java",
+        "templateName": "/template/java/Default/controller.java.vm"
       },
       {
-        "className": "Repository.java",
-        "outPath": "repository/{className}Repository.java",
-        "templateName": "/template/java/Jimmer/Repository.java.vm"
+        "className": "Dao.java",
+        "outPath": "dao/{className}Dao.java",
+        "templateName": "/template/java/Default/dao.java.vm"
+      },
+      {
+        "className": "Entity.java",
+        "outPath": "entity/{className}Entity.java",
+        "templateName": "/template/java/Default/entity.java.vm"
+      },
+      {
+        "className": "Service.java",
+        "outPath": "service/{className}Service.java",
+        "templateName": "/template/java/Default/service.java.vm"
+      },
+      {
+        "className": "ServiceImpl.java",
+        "outPath": "service/impl/{className}ServiceImpl.java",
+        "templateName": "/template/java/Default/serviceimpl.java.vm"
+      },
+      {
+        "className": "Mapper.java",
+        "outPath": "dao/{className}Mapper.xml",
+        "templateName": "/template/java/Default/mapper.xml.vm"
       }
     ],
     "jimmer": [
