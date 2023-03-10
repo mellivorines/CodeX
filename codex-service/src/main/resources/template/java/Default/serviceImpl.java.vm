@@ -1,19 +1,13 @@
-##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "ServiceImpl"))
-##设置回调
-$!callback.setFileName($tool.append($tableName, ".java"))
-$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
-
-##拿到主键
-#if(!$tableInfo.pkColumn.isEmpty())
-    #set($pk = $tableInfo.pkColumn.get(0))
+#if($moduleName != "")
+package ${packageName}.${moduleName}.service.impl;
+import ${packageName}.${moduleName}.entity.${ClassName}Entity;
+import ${packageName}.${moduleName}.dao.${ClassName}Dao;
+import ${packageName}.${moduleName}.service.${ClassName}EntityService;
+#else
+import ${packageName}.entity.${ClassName}Entity;
+import ${packageName}.dao.${ClassName}Dao;
+import ${packageName}.service.${ClassName}Service;
 #end
-
-#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
-
-import $!{tableInfo.savePackageName}.entity.$!{tableInfo.name};
-import $!{tableInfo.savePackageName}.dao.$!{tableInfo.name}Dao;
-import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,72 +16,72 @@ import org.springframework.data.domain.PageRequest;
 import javax.annotation.Resource;
 
 /**
- * $!{tableInfo.comment}($!{tableInfo.name})表服务实现类
+ * ${tableComment}(${tableName})表服务实现类
  *
- * @author $!author
- * @since $!time.currTime()
+ * @author ${author} ${email}
+ * @since ${version} ${date}
  */
-@Service("$!tool.firstLowerCase($!{tableInfo.name})Service")
-public class $!{tableName} implements $!{tableInfo.name}Service {
+@Service("${ClassName}Service")
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     @Resource
-    private $!{tableInfo.name}Dao $!tool.firstLowerCase($!{tableInfo.name})Dao;
+    private ${ClassName}Dao ${className}Dao;
 
     /**
      * 通过ID查询单条数据
      *
-     * @param $!pk.name 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public $!{tableInfo.name} queryById($!pk.shortType $!pk.name) {
-        return this.$!{tool.firstLowerCase($!{tableInfo.name})}Dao.queryById($!pk.name);
+    public ${ClassName}Entity queryById(Long id) {
+        return this.${className}Dao.queryById(id);
     }
 
     /**
      * 分页查询
      *
-     * @param $!{tool.firstLowerCase($tableInfo.name)} 筛选条件
+     * @param ${className}Entity 筛选条件
      * @param pageRequest      分页对象
      * @return 查询结果
      */
     @Override
-    public Page<$!{tableInfo.name}> queryByPage($!{tableInfo.name} $!{tool.firstLowerCase($tableInfo.name)}, PageRequest pageRequest) {
-        long total = this.$!{tool.firstLowerCase($tableInfo.name)}Dao.count($!{tool.firstLowerCase($tableInfo.name)});
-        return new PageImpl<>(this.$!{tool.firstLowerCase($tableInfo.name)}Dao.queryAllByLimit($!{tool.firstLowerCase($tableInfo.name)}, pageRequest), pageRequest, total);
+    public Page<${ClassName}Entity> queryByPage(${ClassName}Entity ${className}Entity, PageRequest pageRequest) {
+        long total = this.${className}Dao.count(${className}Entity);
+        return new PageImpl<>(this.${className}Dao.queryAllByLimit(${className}Entity, pageRequest), pageRequest, total);
     }
 
     /**
      * 新增数据
      *
-     * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+     * @param ${className}Entity 实例对象
      * @return 实例对象
      */
     @Override
-    public $!{tableInfo.name} insert($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
-        this.$!{tool.firstLowerCase($!{tableInfo.name})}Dao.insert($!tool.firstLowerCase($!{tableInfo.name}));
-        return $!tool.firstLowerCase($!{tableInfo.name});
+    public ${ClassName}Entity insert(${ClassName}Entity ${className}Entity) {
+        this.${className}Dao.insert(${className}Entity);
+        return ${className}Entity;
     }
 
     /**
      * 修改数据
      *
-     * @param $!tool.firstLowerCase($!{tableInfo.name}) 实例对象
+     * @param ${className}Entity 实例对象
      * @return 实例对象
      */
     @Override
-    public $!{tableInfo.name} update($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name})) {
-        this.$!{tool.firstLowerCase($!{tableInfo.name})}Dao.update($!tool.firstLowerCase($!{tableInfo.name}));
-        return this.queryById($!{tool.firstLowerCase($!{tableInfo.name})}.get$!tool.firstUpperCase($pk.name)());
+    public ${ClassName}Entity update(${ClassName}Entity ${className}Entity) {
+        this.${className}Dao.update(${className}Entity);
+        return this.queryById(${className}Entity.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param $!pk.name 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById($!pk.shortType $!pk.name) {
-        return this.$!{tool.firstLowerCase($!{tableInfo.name})}Dao.deleteById($!pk.name) > 0;
+    public boolean deleteById(Long id) {
+        return this.${className}Dao.deleteById(id) > 0;
     }
 }
