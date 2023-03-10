@@ -28,7 +28,7 @@
       },
       {
         "className": "Mapper.java",
-        "outPath": "dao/{className}Mapper.xml",
+        "outPath": "{className}Mapper.xml",
         "templateName": "/template/java/Default/mapper.xml.vm"
       }
     ],
