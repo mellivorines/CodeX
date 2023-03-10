@@ -8,6 +8,7 @@ import com.mellivorines.codex.model.template.TemplateInfo
 import com.mellivorines.codex.model.template.Templates
 import com.mellivorines.codex.model.type.TypeMappings
 import com.mellivorines.codex.service.GeneratorService
+import com.mellivorines.codex.utils.StringUtils.sneak2camel
 import com.mellivorines.codex.utils.TemplateUtils
 import com.mellivorines.codex.utils.TemplateUtils.getListFromJson
 import org.springframework.stereotype.Service
@@ -43,18 +44,23 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
             CommonConstant.FRAMEWORK_JIMMER -> {
                 frame?.jimmer
             }
+
             CommonConstant.FRAMEWORK_MYBATIS -> {
                 frame?.mybatis
             }
+
             CommonConstant.FRAMEWORK_MYBATIS_PLUS -> {
                 frame?.mybatisPlus
             }
+
             CommonConstant.FRAMEWORK_MYBATIS_PLUS_MIXED -> {
                 frame?.mybatisPlusMixed
             }
+
             CommonConstant.FRAMEWORK_SPRING_DATA_MONGODB -> {
                 frame?.springDataMongodb
             }
+
             else -> {
                 frame?.default
             }
@@ -77,7 +83,11 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
                 if (templatesInfo != null) {
                     for (temp in templatesInfo) {
                         var createOutFilePath = createOutFilePath(basePath, module, temp.outPath, table.className)
-                        var outFilePath = Path(createOutFilePath)
+                        var outFilePath = if (temp.templateName.contains(CommonConstant.LANGUAGE_TAG_MAPPER)) {
+                                Path(createOutFilePathForMapper(CommonConstant.DIR_RESOURCE, module, temp.outPath, table.className))
+                            } else {
+                                Path(createOutFilePath)
+                            }
                         var templatePath = Path(CommonConstant.DIR_RESOURCE + temp.templateName)
 
                         TemplateUtils.render(outFilePath, templatePath, data)
@@ -88,8 +98,17 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
         }
     }
 
+    private fun createOutFilePathForMapper(dirResource: String, module: String?, outPath: String, className: String): String {
+        var basePath = if (module != null) {
+            dirResource+File.separator+ CommonConstant.LANGUAGE_TAG_MAPPER + File.separator + module
+        } else {
+            dirResource+File.separator+ module
+        }
+        return basePath + File.separator + outPath.replace("{className}", className);
+    }
+
     /**
-     * g构建文件输出路径
+     * 构建文件输出路径
      */
     fun createOutFilePath(basedir: String, module: String?, outPath: String, className: String): String {
         var basePath = if (module != null) {
@@ -97,7 +116,6 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
         } else {
             basedir
         }
-
         return basePath + File.separator + outPath.replace("{className}", className);
     }
 
@@ -109,6 +127,7 @@ class GeneratorServiceService(private var databaseService: DatabaseService) :
         project.packageName?.let { data.put("packageName", it) }
         project.version?.let { data.put("version", it) }
         table.className?.let { data.put("ClassName", it) }
+        table.className.sneak2camel(true)?.let { data.put("className", it) }
         table.tableComment?.let { data.put("tableComment", it) }
         table.tableName?.let { data.put("tableName", it) }
         module?.let { data.put("moduleName", it) }
